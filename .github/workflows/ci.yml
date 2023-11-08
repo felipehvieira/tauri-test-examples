@@ -1,7 +1,9 @@
-name: 'publish'
+name: 'Publish Release'
 
-on: pull_request
-
+on:
+  push:
+    branches:
+      - main
 jobs:
   create-release:
     permissions:
@@ -27,8 +29,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: `app-v${process.env.PACKAGE_VERSION}`,
-              name: `Desktop App v${process.env.PACKAGE_VERSION}`,
-              body: 'Take a look at the assets to download and install this app.',
+              name: `Tauri Examples v${process.env.PACKAGE_VERSION}`,
+              body: 'Tauri Examples Release.',
               draft: true,
               prerelease: false
             })
@@ -64,7 +66,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
-          
+
   publish-release:
     permissions:
       contents: write
