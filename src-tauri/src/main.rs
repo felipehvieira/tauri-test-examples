@@ -1,10 +1,10 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use std::{process::{Command, Stdio}, io::{BufReader, BufRead}};
+use std::{process::{Command, Stdio}, io::{BufReader, BufRead}, os::windows::process::CommandExt};
 
 use tauri::{Manager, AppHandle};
 
-
+const DETACHED_PROCESS: u32 = 0x00000008;
 #[derive(Clone, serde::Serialize)]
 struct Payload {
   value: String
@@ -23,6 +23,7 @@ async fn clone_repository(_url: &str, app: AppHandle) -> Result<(),()>{
   //let mut value: String;
   let mut cmd_output =  Command::new("ping")
     .args(["-t","8.8.8.8"])
+    .creation_flags(DETACHED_PROCESS) //Works only in windows (used to not open windows terminal problem)
     .stdout(Stdio::piped())
     .spawn()
     .unwrap();
