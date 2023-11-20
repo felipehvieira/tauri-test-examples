@@ -12,7 +12,29 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "shell": {
+        "all": true,
+        "execute": true,
+        "open": true,
+        "scope": [
+          {
+            "name": "run-git-status",
+            "cmd": "git",
+            "args": ["status"]
+          },
+          {
+            "name": "run-git-clone",
+            "cmd": "git",
+            "args": ["clone"]
+          },
+          {
+            "name": "run-ping",
+            "cmd": "ping",
+            "args": ["-t", "8.8.8.8"]
+          }
+        ],
+        "sidecar": false
+      }
     },
     "bundle": {
       "active": true,
